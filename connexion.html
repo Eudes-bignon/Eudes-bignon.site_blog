@@ -3,49 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="path/to/fontawesome.min.css">
+    <title>Page de Connexion</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Connexion</h1>
-        <form id="connexionForm" method="post">
-            <input type="email" name="email" id="email" placeholder="Email" required>
-            <input type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe" required>
-            <button type="submit" id="submitBtn">Se connecter</button>
-            <div id="errorMessage" style="color: red; margin-top: 5px;"></div>
-        </form>
-    </div>
+    <h1>Page de Connexion</h1>
+    <form action="rechercher-thematiques.html" method="POST" onsubmit="return validateForm()">
+        <label for="email">Email :</label><br>
+        <input type="email" id="email" name="email" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+"><br>
+        <label for="password">Mot de passe :</label><br>
+        <input type="password" id="password" name="password" required pattern="^(?=.*[A-Z])(?=.*\d).{8,}$"><br><br>
+        <input type="submit" value="Se connecter">
+    </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const emailInput = document.getElementById('email');
-            const motDePasseInput = document.getElementById('mot_de_passe');
+        function validateForm() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
 
-            document.getElementById('connexionForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Empêcher la soumission par défaut du formulaire
+            var emailPattern = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+            var passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-                // Vérifier les informations de connexion
-                const email = emailInput.value;
-                const password = motDePasseInput.value;
+            if (!emailPattern.test(email)) {
+                alert("Veuillez saisir une adresse email valide.");
+                return false;
+            }
 
-                // Ici, vous pouvez vérifier les informations de connexion avec votre système de gestion des utilisateurs
-                const defaultEmail = 'utilisateur@example.com';
-                const defaultPassword = 'MotDePasse123';
-                const isConnected = (email === defaultEmail && password === defaultPassword);
+            if (!passwordPattern.test(password)) {
+                alert("Le mot de passe doit contenir au moins une lettre majuscule et un numéro, et avoir une longueur d'au moins 8 caractères.");
+                return false;
+            }
 
-                if (isConnected) {
-                    // Si les informations de connexion sont valides, rediriger vers la page de recherche de thématiques
-                    window.location.href = 'rechercher_thematique.html';
-                } else {
-                    // Si les informations de connexion sont incorrectes, afficher un message d'erreur
-                    const errorMessage = document.getElementById('errorMessage');
-                    errorMessage.textContent = 'Adresse email ou mot de passe incorrect.';
-                }
-            });
-        });
+            return true;
+        }
     </script>
 </body>
 </html>
-
